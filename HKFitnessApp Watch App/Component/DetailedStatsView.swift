@@ -169,7 +169,7 @@ struct StepsChartSection: View {
                 Spacer()
             }
             
-            // Vertical Bar Chart instead of Donut
+            // Vertical Bar Chart
             VStack(spacing: 8) {
                 // Progress Bar
                 GeometryReader { geometry in
@@ -272,7 +272,7 @@ struct EnergyChartSection: View {
                 Spacer()
             }
             
-            // Vertical Bar Chart instead of Donut
+            // Vertical Bar Chart 
             VStack(spacing: 8) {
                 // Progress Bar
                 GeometryReader { geometry in

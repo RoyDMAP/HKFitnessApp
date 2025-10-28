@@ -37,7 +37,6 @@ class HKManager: ObservableObject {
         ]
         
         // Including step count in write permissions for simulator testing
-        // Note: This may not work on real devices due to system restrictions
         let typesToWrite: Set = [
             HKObjectType.quantityType(forIdentifier: .heartRate)!,
             HKObjectType.quantityType(forIdentifier: .stepCount)!,
@@ -105,7 +104,7 @@ class HKManager: ObservableObject {
         healthStore.execute(query)
     }
     
-    // Updated with completion handler for UI feedback
+    // Handler for UI feedback
     func addStepCount(_ steps: Double, completion: @escaping (Bool, String?) -> Void) {
         guard let sampleType = HKObjectType.quantityType(forIdentifier: .stepCount) else {
             completion(false, "Step count type not available")

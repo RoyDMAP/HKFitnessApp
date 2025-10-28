@@ -19,7 +19,7 @@ struct HeartRateCard: View {
         }
     }
     
-    // Calculate progress based on heart rate thresholds
+    // Calculate progress based on heart rate 
     var heartRateProgress: Double {
         let hr = hkManager.currentHeartRate
         let minHR = 40.0
