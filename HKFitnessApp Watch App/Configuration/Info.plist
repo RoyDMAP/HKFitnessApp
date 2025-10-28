@@ -2,9 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSHealthShareUsageDescription</key>
-    <string>HKFitness needs access to your heart rate, steps, and active energy data to monitor your health.</string>
-    <key>NSHealthUpdateUsageDescription</key>
-    <string>HKFitness needs to save health data to track your fitness progress.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>HKFitness needs camera access to capture photos and video for your activity tracking.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>HKFitness needs motion access to track your activity, steps, and movement in real-time.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>HKFitness needs permission to access your photo library.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>HKFitness needs permission to save photos and videos to your library.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>HKFitness needs access to read your health data including heart rate, steps, and active energy.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>HKFitness needs access to write health data for tracking purposes.</string>
 </dict>
 </plist>

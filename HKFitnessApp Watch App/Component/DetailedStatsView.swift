@@ -11,9 +11,11 @@ import Charts
 
 struct DetailedStatsView: View {
     @EnvironmentObject var hkManager: HKManager
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        ScrollView {
+        NavigationView {
+            ScrollView {
             VStack(spacing: 16) {
                 // Heart Rate Chart
                 HeartRateChartSection()
@@ -31,6 +33,14 @@ struct DetailedStatsView: View {
         }
         .navigationTitle("Details")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Close") {
+                    dismiss()
+                }
+            }
+        }
+        }
     }
 }
 
@@ -79,6 +89,7 @@ struct HeartRateChartSection: View {
                 Text("Heart Rate")
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(.red)
+                    .fixedSize()
                 Spacer()
             }
             
@@ -166,10 +177,11 @@ struct StepsChartSection: View {
                 Text("Steps")
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(.orange)
+                    .fixedSize()
                 Spacer()
             }
             
-            // Vertical Bar Chart
+            // Vertical Bar Chart instead of Donut
             VStack(spacing: 8) {
                 // Progress Bar
                 GeometryReader { geometry in
@@ -269,10 +281,11 @@ struct EnergyChartSection: View {
                 Text("Energy")
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(.pink)
+                    .fixedSize()
                 Spacer()
             }
             
-            // Vertical Bar Chart 
+            // Vertical Bar Chart instead of Donut
             VStack(spacing: 8) {
                 // Progress Bar
                 GeometryReader { geometry in
@@ -459,14 +472,17 @@ struct MiniStatCard: View {
             Text(label)
                 .font(.system(size: 8, weight: .medium))
                 .foregroundColor(.gray)
+                .fixedSize()
             
             Text(value)
                 .font(.system(size: 14, weight: .bold, design: .rounded))
                 .foregroundColor(color)
+                .fixedSize()
             
             Text(unit)
                 .font(.system(size: 8, weight: .medium))
                 .foregroundColor(.gray)
+                .fixedSize()
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 6)
@@ -490,10 +506,12 @@ struct SummaryStatCard: View {
             Text(value)
                 .font(.system(size: 16, weight: .bold, design: .rounded))
                 .foregroundColor(color)
+                .fixedSize()
             
             Text(label)
                 .font(.system(size: 9, weight: .medium))
                 .foregroundColor(.gray)
+                .fixedSize()
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity)

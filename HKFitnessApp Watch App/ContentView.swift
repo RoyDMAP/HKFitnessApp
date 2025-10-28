@@ -3,6 +3,7 @@
 //  HKFitnessApp
 //
 //  Created by Roy Dimapilis on 10/25/25.
+//  Updated with Camera and Activity Integration
 //
 
 import SwiftUI
@@ -10,64 +11,101 @@ import HealthKit
 
 struct ContentView: View {
     @EnvironmentObject var hkManager: HKManager
+    @StateObject private var notificationManager = NotificationManager.shared
+    @StateObject private var motionManager = MotionManager.shared
     @State private var refreshTimer: Timer?
+    @State private var showCameraSheet = false
+    @State private var showSettingsSheet = false
+    @State private var showDetailsSheet = false
     
     var body: some View {
         NavigationView {
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack(spacing: 16) {
-                        if hkManager.isAuthorized {
-                            // Health Metrics Cards
-                            HeartRateCard()
-                                .id("heartRate")
-                            StepsCard()
-                                .id("steps")
-                            ActiveEnergyCard()
-                                .id("energy")
-                            
-                            // Refresh Button
-                            Button(action: refreshAllData) {
-                                Label("Refresh", systemImage: "arrow.clockwise")
-                                    .font(.system(size: 13, weight: .medium))
-                                    .foregroundColor(.blue)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 10)
-                            }
-                            
-                            // Navigation Buttons - Vertical
-                            NavigationLink(destination: SettingsView()) {
-                                Label("Settings", systemImage: "gear")
-                                    .font(.system(size: 13, weight: .medium))
-                                    .foregroundColor(.gray)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 10)
-                            }
-                            
-                            NavigationLink(destination: DetailedStatsView()) {
-                                Label("Details", systemImage: "chart.bar.fill")
-                                    .font(.system(size: 13, weight: .medium))
-                                    .foregroundColor(.gray)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 10)
-                            }
-                                .id("details")
-                        } else {
-                            AuthorizationView()
+            ScrollView {
+                VStack(spacing: 16) {
+                    if hkManager.isAuthorized {
+                        // Health Metrics Cards
+                        HeartRateCard()
+                            .id("heartRate")
+                        
+                        StepsCard()
+                            .id("steps")
+                        
+                        ActiveEnergyCard()
+                            .id("energy")
+                        
+                        // NEW: Activity Card (Core Motion)
+                        ActivityCard()
+                            .id("activity")
+                        
+                        // Refresh Button
+                        Button(action: refreshAllData) {
+                            Label("Refresh", systemImage: "arrow.clockwise")
+                                .font(.system(size: 13, weight: .medium))
+                                .foregroundColor(.blue)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
                         }
+                        
+                        // Camera Button - Using fullScreenCover instead of sheet
+                        Button(action: {
+                            showCameraSheet = true
+                        }) {
+                            Label("Camera", systemImage: "camera.fill")
+                                .font(.system(size: 13, weight: .medium))
+                                .foregroundColor(.blue)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
+                        }
+                        .fullScreenCover(isPresented: $showCameraSheet) {
+                            CameraView()
+                        }
+                        
+                        // Settings Button - Using fullScreenCover
+                        Button(action: {
+                            showSettingsSheet = true
+                        }) {
+                            Label("Settings", systemImage: "gear")
+                                .font(.system(size: 13, weight: .medium))
+                                .foregroundColor(.gray)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
+                        }
+                        .fullScreenCover(isPresented: $showSettingsSheet) {
+                            SettingsView()
+                        }
+                        
+                        // Details Button - Using fullScreenCover
+                        Button(action: {
+                            showDetailsSheet = true
+                        }) {
+                            Label("Details", systemImage: "chart.bar.fill")
+                                .font(.system(size: 13, weight: .medium))
+                                .foregroundColor(.gray)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
+                        }
+                        .fullScreenCover(isPresented: $showDetailsSheet) {
+                            DetailedStatsView()
+                        }
+                            .id("details")
+                    } else {
+                        AuthorizationView()
                     }
-                    .padding()
                 }
+                .padding()
             }
             .navigationTitle("HKFitness")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 startAutoRefresh()
+                requestNotificationPermission()
+                startMotionTracking()
             }
             .onDisappear {
                 stopAutoRefresh()
             }
         }
+        .navigationViewStyle(.stack)
     }
     
     // MARK: - Private Methods
@@ -86,7 +124,7 @@ struct ContentView: View {
     }
     
     private func startAutoRefresh() {
-        refreshTimer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) { _ in
+        refreshTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { _ in
             refreshAllData()
         }
     }
@@ -94,6 +132,16 @@ struct ContentView: View {
     private func stopAutoRefresh() {
         refreshTimer?.invalidate()
         refreshTimer = nil
+    }
+    
+    private func requestNotificationPermission() {
+        notificationManager.requestAuthorization()
+    }
+    
+    private func startMotionTracking() {
+        if motionManager.isMotionAvailable {
+            motionManager.startTracking()
+        }
     }
 }
 

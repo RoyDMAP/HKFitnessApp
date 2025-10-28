@@ -25,7 +25,8 @@ struct SettingsView: View {
     }
     
     var body: some View {
-        ScrollView {
+        NavigationView {
+            ScrollView {
             VStack(spacing: 16) {
                 // Heart Rate Thresholds Section
                 VStack(spacing: 12) {
@@ -145,8 +146,16 @@ struct SettingsView: View {
             }
             .padding()
         }
-        .navigationTitle("Setting")
+        .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Close") {
+                    dismiss()
+                }
+            }
+        }
+        }
     }
     
     // MARK: - Helper Functions
@@ -180,6 +189,7 @@ struct SectionHeader: View {
             Text(title)
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(color)
+                .fixedSize(horizontal: true, vertical: false)
             Spacer()
         }
     }
@@ -206,11 +216,14 @@ struct CurrentStatusCard: View {
                 Text("Current")
                     .font(.system(size: 10, weight: .medium))
                     .foregroundColor(.gray)
+                    .fixedSize()
                 Text("\(Int(currentHR))")
                     .font(.system(size: 12, weight: .bold))
+                    .fixedSize()
                 Text("BPM")
                     .font(.system(size: 10, weight: .medium))
                     .foregroundColor(.gray)
+                    .fixedSize()
             }
             
             Spacer()
@@ -222,6 +235,7 @@ struct CurrentStatusCard: View {
                 .padding(.vertical, 4)
                 .background(statusColor.opacity(0.2))
                 .cornerRadius(6)
+                .fixedSize()
         }
         .padding(10)
         .background(Color.gray.opacity(0.1))

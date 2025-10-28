@@ -3,6 +3,7 @@
 //  HKFitnessApp
 //
 //  Created by Roy Dimapilis on 10/25/25.
+//  Updated with Notifications Integration
 //
 
 import Foundation
@@ -25,6 +26,9 @@ class HKManager: ObservableObject {
     @Published var stepGoal: Int = 10000
     @Published var activeEnergyGoal: Double = 500
     
+    private let notificationManager = NotificationManager.shared
+    private var lastStepCount: Int = 0
+    
     private init() {
         self.requestAuthorization()
     }
@@ -37,6 +41,7 @@ class HKManager: ObservableObject {
         ]
         
         // Including step count in write permissions for simulator testing
+        // Note: This may not work on real devices due to system restrictions
         let typesToWrite: Set = [
             HKObjectType.quantityType(forIdentifier: .heartRate)!,
             HKObjectType.quantityType(forIdentifier: .stepCount)!,
@@ -67,6 +72,12 @@ class HKManager: ObservableObject {
         let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: 500, sortDescriptors: [NSSortDescriptor(key: "startDate", ascending: true)]) { _, samples, _ in
             DispatchQueue.main.async {
                 self.heartRate = (samples as? [HKQuantitySample]) ?? []
+                
+                // Check heart rate and send notification if needed
+                let currentHR = self.currentHeartRate
+                if currentHR > 0 {
+                    self.notificationManager.checkHeartRate(bpm: currentHR, status: self.heartRateStatus)
+                }
             }
         }
         
@@ -98,13 +109,20 @@ class HKManager: ObservableObject {
         let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [NSSortDescriptor(key: "startDate", ascending: true)]) { _, samples, _ in
             DispatchQueue.main.async {
                 self.stepCount = (samples as? [HKQuantitySample]) ?? []
+                
+                // Check for step milestones
+                let currentSteps = self.todayStepCount
+                if currentSteps != self.lastStepCount {
+                    self.notificationManager.checkStepMilestones(currentSteps: currentSteps)
+                    self.lastStepCount = currentSteps
+                }
             }
         }
         
         healthStore.execute(query)
     }
     
-    // Handler for UI feedback
+    // Updated with completion handler for UI feedback
     func addStepCount(_ steps: Double, completion: @escaping (Bool, String?) -> Void) {
         guard let sampleType = HKObjectType.quantityType(forIdentifier: .stepCount) else {
             completion(false, "Step count type not available")
@@ -206,6 +224,15 @@ class HKManager: ObservableObject {
     func updateThresholds(low: Double, high: Double) {
         lowThreshold = low
         highThreshold = high
+    }
+    
+    // MARK: - Reset for New Day
+    
+    func resetForNewDay() {
+        lastStepCount = 0
+        notificationManager.resetStepNotifications()
+        notificationManager.resetHeartRateAlert()
+        print("🌅 Reset for new day")
     }
 }
 
