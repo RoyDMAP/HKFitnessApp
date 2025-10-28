@@ -1,10 +1,3 @@
-//
-//  NotificationManager.swift
-//  HKFitnessApp
-//
-//  Created by Assistant
-//
-
 import Foundation
 import UserNotifications
 import Combine

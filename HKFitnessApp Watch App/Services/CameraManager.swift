@@ -1,11 +1,3 @@
-//
-//  CameraManager.swift
-//  HKFitnessApp
-//
-//  Created by Assistant
-//  watchOS Compatible Version
-//
-
 import Foundation
 import Combine
 import SwiftUI

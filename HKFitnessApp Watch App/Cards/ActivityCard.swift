@@ -1,11 +1,3 @@
-//
-//  ActivityCard.swift
-//  HKFitnessApp
-//
-//  Created by Assistant
-//  Updated with better text layout and simulated data
-//
-
 import SwiftUI
 
 struct ActivityCard: View {

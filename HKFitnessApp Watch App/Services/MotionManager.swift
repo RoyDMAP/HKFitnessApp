@@ -1,10 +1,3 @@
-//
-//  MotionManager.swift
-//  HKFitnessApp
-//
-//  Created by Assistant
-//
-
 import Foundation
 import CoreMotion
 import Combine
