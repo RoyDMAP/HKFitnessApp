@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import HealthKit
 
 @main
-struct HKFitnessApp_Watch_AppApp: App {
+struct HKFitnessApp: App {
+    @StateObject private var hkManager = HKManager.shared
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(hkManager)
         }
     }
 }

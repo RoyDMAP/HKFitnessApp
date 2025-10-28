@@ -39,9 +39,22 @@
 		91E1D5582EB044EF00E341C3 /* HKFitnessApp Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HKFitnessApp Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		91E1D5972EB05E2C00E341C3 /* Exceptions for "HKFitnessApp Watch App" folder in "HKFitnessApp Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Configuration/Info.plist,
+			);
+			target = 91E1D5572EB044EF00E341C3 /* HKFitnessApp Watch App */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		91E1D55C2EB044EF00E341C3 /* HKFitnessApp Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				91E1D5972EB05E2C00E341C3 /* Exceptions for "HKFitnessApp Watch App" folder in "HKFitnessApp Watch App" target */,
+			);
 			path = "HKFitnessApp Watch App";
 			sourceTree = "<group>";
 		};
@@ -314,12 +327,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "HKFitnessApp Watch App/HKFitnessApp Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8344Y5PFV3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = HKFitnessApp;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "HKFitness needs access to your heart rate, steps, and active energy data to monitor your health";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "HKFitness needs to save health data to track your fitness progress.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -327,7 +343,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.app.HKFitnessApp.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.roy.HKFitnessApp.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -347,12 +363,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "HKFitnessApp Watch App/HKFitnessApp Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8344Y5PFV3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_FILE[sdk=*]" = "HKFitnessAppWatch App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = HKFitnessApp;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "HKFitness needs access to your heart rate, steps, and active energy data to monitor your health";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "HKFitness needs to save health data to track your fitness progress.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -360,7 +380,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.app.HKFitnessApp.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.roy.HKFitnessApp.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
